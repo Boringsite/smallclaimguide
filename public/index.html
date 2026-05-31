@@ -39,17 +39,20 @@ body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--
 .theme-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg3);cursor:pointer;font-size:17px;transition:all 0.2s}
 .theme-btn:hover{border-color:var(--red);background:var(--red-dim)}
 .wrap{max-width:860px;margin:0 auto;padding:32px 20px 100px}
-.hero{background:linear-gradient(135deg,#1d4ed8 0%,#1e40af 50%,#1e3a8a 100%);border-radius:var(--radius-lg);padding:36px 32px;margin-bottom:32px;text-align:center;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,#1d4ed8 0%,#1e40af 50%,#1e3a8a 100%);border-radius:var(--radius-lg);padding:32px;margin-bottom:0;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:rgba(255,255,255,0.05);border-radius:50%;pointer-events:none}
 .hero h1{font-size:34px;font-weight:900;letter-spacing:-0.5px;color:#fff;margin-bottom:10px;line-height:1.2}
 .hero p{font-size:16px;color:rgba(255,255,255,0.85);line-height:1.75;max-width:580px;margin:0 auto 24px}
-.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:4px}
-.tool-card{background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--radius);padding:16px 12px;cursor:pointer;transition:all 0.15s;text-align:center;backdrop-filter:blur(4px)}
-.tool-card:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
-.tool-card.active{background:rgba(255,255,255,0.25);border:2px solid #fff}
-.tool-ico{font-size:30px;margin-bottom:8px}
-.tool-name{font-size:13px;font-weight:700;color:#fff}
-.tool-desc{font-size:11px;color:rgba(255,255,255,0.7);margin-top:3px;line-height:1.4}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:-20px 0 28px;background:var(--bg2);border:2px solid var(--red-border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-md)}
+.tool-card{background:var(--bg);border:2px solid var(--border);border-radius:var(--radius);padding:14px 12px;cursor:pointer;transition:all 0.15s;text-align:center}
+.tool-card:hover{background:var(--red-dim);border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 12px var(--red-dim)}
+.tool-card.active{background:var(--red);border:2px solid var(--red2);box-shadow:0 4px 12px var(--red-dim)}
+.tool-ico{font-size:28px;margin-bottom:8px}
+.tool-name{font-size:13px;font-weight:700;color:var(--text)}
+.tool-card:hover .tool-name{color:var(--red)}
+.tool-card.active .tool-name{color:#fff}
+.tool-desc{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4}
+.tool-card.active .tool-desc{color:rgba(255,255,255,0.8)}
 .panel{display:none;animation:fadeIn 0.3s ease}
 .panel.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -147,7 +150,12 @@ textarea{resize:vertical;min-height:110px}
   <div class="hero">
     <h1>Your Free Small Claims Court Toolkit</h1>
     <p>Everything you need to sue in small claims court -- without a lawyer. Check if your case qualifies, calculate your deadline, generate a demand letter, and get step-by-step guidance for your province or state.</p>
-    <div class="tool-grid" id="tool-grid">
+    </div>
+
+
+  </div>
+
+  <div class="tool-grid" id="tool-grid">
       <div class="tool-card active" onclick="showTool('eligibility')">
         <div class="tool-ico">&#9878;</div>
         <div class="tool-name">Can I sue?</div>
@@ -214,19 +222,6 @@ textarea{resize:vertical;min-height:110px}
         <div class="tool-desc">Free and low-cost help</div>
       </div>
     </div>
-  </div>
-
-  <!-- ELIGIBILITY -->
-  <div class="panel active" id="panel-eligibility">
-    <h2>Can I sue in small claims court?</h2>
-    <p class="sub">Answer a few questions and we'll tell you whether your case qualifies, how much you can claim, and what to do next.</p>
-
-    <div class="section">
-      <span class="lbl">Where are you filing?</span>
-      <div class="opts">
-        <button class="opt on" id="elig-ca-btn" onclick="setEligCountry('CA')">Canada</button>
-        <button class="opt" id="elig-us-btn" onclick="setEligCountry('US')">United States</button>
-      </div>
     </div>
     <div class="section" id="elig-prov-section">
       <span class="lbl">Province</span>
@@ -1381,152 +1376,91 @@ function setScriptRole(r){
   document.getElementById('script-d-btn').className='opt'+(r==='defendant'?' on':'');
 }
 function generateScript(){
-  var type=document.getElementById('script-type').value;
-  var name=document.getElementById('script-name').value.trim()||'[Your Name]';
-  var other=document.getElementById('script-other').value.trim()||'[Other Party]';
-  var amount=document.getElementById('script-amount').value.trim()||'[amount]';
-  if(!type){document.getElementById('script-output').style.display='none';return;}
-  var isP=scriptRole==='plaintiff';
-  var typeDescMap={
-    contractor:'hired '+other+' to perform renovation work',
-    landlord:isP?'paid a security deposit to '+other+' which was not returned':'rented property from '+other,
-    debt:isP?other+' owes me money I lent them':'borrowed money from '+other,
-    car:'was involved in a vehicle accident involving '+other,
-    product:'purchased a defective product from '+other,
-    services:'paid '+other+' for services that were not delivered',
-    employment:isP?other+' owes me unpaid wages':'employed '+other
+  var type=document.getElementById("script-type").value;
+  var name=document.getElementById("script-name").value.trim()||"[Your Name]";
+  var other=document.getElementById("script-other").value.trim()||"[Other Party]";
+  var amount=document.getElementById("script-amount").value.trim()||"[amount]";
+  if(!type){document.getElementById("script-output").style.display="none";return;}
+  var isP=scriptRole==="plaintiff";
+  var typeDescs={
+    contractor:"hired "+other+" to perform renovation work",
+    landlord:isP?"paid a security deposit to "+other+" which was not returned":"rented property from "+other,
+    debt:isP?other+" owes me money I lent them":"borrowed money from "+other,
+    car:"was involved in a vehicle accident involving "+other,
+    product:"purchased a defective product from "+other,
+    services:"paid "+other+" for services that were not delivered",
+    employment:isP?other+" owes me unpaid wages":"employed "+other
   };
-  var typeDesc=typeDescMap[type]||'have a dispute with '+other;
-  var script='';
+  var typeDesc=typeDescs[type]||"have a dispute with "+other;
+  var lines=[];
   if(isP){
-    script='OPENING STATEMENT (say when the judge asks you to begin)
-';
-    script+='================================================
-
-';
-    script+='"Your Honour, my name is '+name+'. I am the plaintiff in this matter.
-
-';
-    script+='I am here today because I '+typeDesc+', and I am claiming $'+amount+' in damages.
-
-';
-    script+='Here is what happened: [State your facts clearly and chronologically. Keep this under 2 minutes. Stick to facts, not emotions.]
-
-';
-    script+='I attempted to resolve this matter directly by sending a demand letter on [date], which '+other+' did not respond to satisfactorily.
-
-';
-    script+='I have the following evidence to support my claim: [list your exhibits by number].
-
-';
-    script+='I am asking the court to award me $'+amount+', which represents [explain what the amount covers].
-
-';
-    script+='Thank you."
-
-';
-    script+='RESPONDING TO THE OTHER SIDE
-';
-    script+='=============================
-
-';
-    script+='"Your Honour, I would like to respond to what '+other+' just said."
-
-';
-    script+='[Then calmly correct any factual errors with your evidence. Do not get emotional. Say: "The evidence shows..." or "Exhibit [number] demonstrates..."]
-
-';
-    script+='CLOSING (if the judge asks)
-';
-    script+='============================
-
-';
-    script+='"Your Honour, the evidence clearly establishes that '+other+' owes me $'+amount+'. I respectfully ask the court to find in my favour. Thank you."
-
-';
-    script+='TIPS FOR YOUR HEARING
-';
-    script+='======================
-';
-    script+='- Refer to your evidence: "As you can see in Exhibit 1..." "The text messages in Exhibit 3 show..."
-';
-    script+='- Never interrupt. Wait for the other party to finish speaking.
-';
-    script+='- If you do not understand a question, say "I am sorry, could you please repeat that?"
-';
-    script+='- If the judge asks a yes/no question, answer yes or no first, then explain briefly.
-';
-    script+='- Do not argue with the other party directly -- address the judge.
-';
-    script+='- If you forgot something, ask: "May I add something, Your Honour?"';
-  }else{
-    script='OPENING STATEMENT AS DEFENDANT (say when the judge asks you)
-';
-    script+='=============================================================
-
-';
-    script+='"Your Honour, my name is '+name+'. I am the defendant.
-
-';
-    script+='I deny owing '+other+' the amount claimed.
-
-';
-    script+='My position is: [State your defence clearly and briefly. Keep it under 90 seconds.]
-
-';
-    script+='Specifically: [Give 2-3 key facts that support your defence.]
-
-';
-    script+='I have the following evidence to support my position: [list your exhibits]."
-
-';
-    script+='CROSS-EXAMINING THE PLAINTIFF
-';
-    script+='================================
-
-';
-    script+='When '+other+' finishes their statement, you may ask questions. Focus on:
-
-';
-    script+='"'+other+', is it true that [fact that helps your defence]?"
-';
-    script+='"Can you show the court where in [exhibit] it says [claim they made]?"
-';
-    script+='"Is it correct that on [date], you [action that weakens their case]?"
-
-';
-    script+='RESPONDING TO THEIR EVIDENCE
-';
-    script+='================================
-
-';
-    script+='"Your Honour, regarding Exhibit [X] presented by the plaintiff, I would like to point out that [explain why it does not support their claim or how it supports yours]."
-
-';
-    script+='CLOSING
-';
-    script+='==========
-
-';
-    script+='"Your Honour, the plaintiff has not met the burden of proof required to establish their claim. [Summarize your strongest 2 points.] I respectfully ask the court to dismiss this claim. Thank you."
-
-';
-    script+='TIPS FOR DEFENDANTS
-';
-    script+='=====================
-';
-    script+='- The burden of proof is on the plaintiff -- they have to prove their case, not you.
-';
-    script+='- You do not have to prove you are innocent -- you just need to create reasonable doubt.
-';
-    script+='- If they make a claim without evidence, say: "I would ask the plaintiff to show the court the evidence for that claim."
-';
-    script+='- Stay calm. Angry defendants often look guilty even when they are not.';
+    lines.push("OPENING STATEMENT (say when the judge asks you to begin)");
+    lines.push("=".repeat(52));
+    lines.push("");
+    lines.push("Your Honour, my name is "+name+". I am the plaintiff in this matter.");
+    lines.push("");
+    lines.push("I am here today because I "+typeDesc+", and I am claiming $"+amount+" in damages.");
+    lines.push("");
+    lines.push("Here is what happened: [State your facts clearly and chronologically. Keep this under 2 minutes.]");
+    lines.push("");
+    lines.push("I attempted to resolve this directly by sending a demand letter on [date], which "+other+" did not respond to.");
+    lines.push("");
+    lines.push("I have the following evidence: [list your exhibits by number].");
+    lines.push("");
+    lines.push("I am asking the court to award me $"+amount+". Thank you.");
+    lines.push("");
+    lines.push("RESPONDING TO THE OTHER SIDE");
+    lines.push("=".repeat(30));
+    lines.push("");
+    lines.push("Your Honour, I would like to respond to what "+other+" just said.");
+    lines.push("[Calmly correct factual errors with evidence. Say: The evidence shows... or Exhibit [number] shows...]");
+    lines.push("");
+    lines.push("CLOSING");
+    lines.push("=".repeat(10));
+    lines.push("");
+    lines.push("Your Honour, the evidence clearly establishes that "+other+" owes me $"+amount+". I respectfully ask the court to find in my favour. Thank you.");
+    lines.push("");
+    lines.push("TIPS FOR YOUR HEARING");
+    lines.push("- Refer to your evidence: As you can see in Exhibit 1...");
+    lines.push("- Never interrupt. Wait for the other party to finish.");
+    lines.push("- If asked a yes/no question, answer yes or no first, then explain briefly.");
+    lines.push("- Address the judge, not the other party.");
+    lines.push("- Arrive 20-30 minutes early with 3 copies of every document.");
+  } else {
+    lines.push("OPENING STATEMENT AS DEFENDANT");
+    lines.push("=".repeat(32));
+    lines.push("");
+    lines.push("Your Honour, my name is "+name+". I am the defendant.");
+    lines.push("");
+    lines.push("I deny owing "+other+" the amount claimed.");
+    lines.push("");
+    lines.push("My position is: [State your defence clearly. Keep it under 90 seconds.]");
+    lines.push("");
+    lines.push("I have the following evidence to support my position: [list your exhibits].");
+    lines.push("");
+    lines.push("CROSS-EXAMINING THE PLAINTIFF");
+    lines.push("=".repeat(30));
+    lines.push("");
+    lines.push(other+", is it true that [fact that helps your defence]?");
+    lines.push("Can you show the court where in [exhibit] it says [claim they made]?");
+    lines.push("Is it correct that on [date], you [action that weakens their case]?");
+    lines.push("");
+    lines.push("CLOSING");
+    lines.push("=".repeat(10));
+    lines.push("");
+    lines.push("Your Honour, the plaintiff has not met the burden of proof. [Summarize your 2 strongest points.] I respectfully ask the court to dismiss this claim. Thank you.");
+    lines.push("");
+    lines.push("TIPS FOR DEFENDANTS");
+    lines.push("- The burden of proof is on the plaintiff. They must prove their case.");
+    lines.push("- You do not have to prove innocence -- only create reasonable doubt.");
+    lines.push("- Stay calm. Angry defendants often look guilty even when they are not.");
+    lines.push("- If they claim something without evidence, say: I would ask the plaintiff to show the court the evidence for that claim.");
   }
-  document.getElementById('script-text').textContent=script;
-  document.getElementById('script-output').style.display='block';
-  document.getElementById('script-output').scrollIntoView({behavior:'smooth'});
+  document.getElementById("script-text").textContent=lines.join("\n");
+  document.getElementById("script-output").style.display="block";
+  document.getElementById("script-output").scrollIntoView({behavior:"smooth"});
 }
+
 function copyScript(){
   navigator.clipboard.writeText(document.getElementById('script-text').textContent).then(function(){toast('Script copied!');});
 }
