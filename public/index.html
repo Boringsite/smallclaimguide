@@ -180,6 +180,31 @@ textarea{resize:vertical;min-height:100px}
         <div class="tool-name">Limits by region</div>
         <div class="tool-desc">All provinces and states</div>
       </div>
+      <div class="tool-card" onclick="showTool('courtfinder')">
+        <div class="tool-ico">&#127963;</div>
+        <div class="tool-name">Court locator</div>
+        <div class="tool-desc">Find your courthouse by city</div>
+      </div>
+      <div class="tool-card" onclick="showTool('roi')">
+        <div class="tool-ico">&#128181;</div>
+        <div class="tool-name">Is it worth suing?</div>
+        <div class="tool-desc">ROI and cost calculator</div>
+      </div>
+      <div class="tool-card" onclick="showTool('strength')">
+        <div class="tool-ico">&#9878;</div>
+        <div class="tool-name">Case strength meter</div>
+        <div class="tool-desc">How strong is your case?</div>
+      </div>
+      <div class="tool-card" onclick="showTool('defendant')">
+        <div class="tool-ico">&#128737;</div>
+        <div class="tool-name">I am being sued</div>
+        <div class="tool-desc">Defendant survival guide</div>
+      </div>
+      <div class="tool-card" onclick="showTool('script')">
+        <div class="tool-ico">&#127908;</div>
+        <div class="tool-name">Court day script</div>
+        <div class="tool-desc">What to say in court</div>
+      </div>
     </div>
   </div>
 
@@ -669,6 +694,132 @@ textarea{resize:vertical;min-height:100px}
     </div>
   </div>
 
+
+  <!-- COURT FINDER -->
+  <div class="panel" id="panel-courtfinder">
+    <h2>Find Your Courthouse</h2>
+    <p class="sub">Small claims court is filed at the courthouse in the jurisdiction where the defendant lives or where the dispute happened. Search below to find the right courthouse for your city.</p>
+    <div class="fb fb-b"><div class="ico">&#128161;</div><div><strong>Important rule:</strong> You must file in the correct jurisdiction or your case may be dismissed. Generally file where the defendant lives, where the contract was made, or where the incident occurred -- whichever is most convenient for you.</div></div>
+    <div class="section" style="margin-top:16px">
+      <div class="opts">
+        <button class="opt on" id="cf-ca-btn" onclick="setCFCountry('CA')">Canada</button>
+        <button class="opt" id="cf-us-btn" onclick="setCFCountry('US')">United States</button>
+      </div>
+    </div>
+    <div class="section">
+      <span class="lbl">Search by city</span>
+      <input type="text" id="cf-search" placeholder="e.g. Toronto, Calgary, Los Angeles, Dallas..." oninput="searchCourts(this.value)" autocomplete="off">
+    </div>
+    <div id="cf-results"></div>
+  </div>
+
+  <!-- ROI CALCULATOR -->
+  <div class="panel" id="panel-roi">
+    <h2>Is It Worth Suing?</h2>
+    <p class="sub">Most people focus on whether they can win -- but the real question is whether winning is worth the time and money. This calculator helps you decide.</p>
+    <div class="section">
+      <span class="lbl">How much are you claiming?</span>
+      <input type="number" id="roi-amount" placeholder="e.g. 3000" onblur="calcROI()">
+    </div>
+    <div class="section">
+      <span class="lbl">Filing location</span>
+      <div class="opts">
+        <button class="opt on" id="roi-ca-btn" onclick="setROICountry('CA')">Canada</button>
+        <button class="opt" id="roi-us-btn" onclick="setROICountry('US')">United States</button>
+      </div>
+    </div>
+    <div class="section">
+      <span class="lbl">How many hours have you already spent on this dispute?</span>
+      <input type="number" id="roi-hours" placeholder="e.g. 5" value="3" onblur="calcROI()">
+    </div>
+    <div class="section">
+      <span class="lbl">How likely is the defendant to actually pay if you win?</span>
+      <div class="opts">
+        <button class="opt on" id="roi-pay-high" onclick="setROIPay('high')">Very likely -- they have income or assets</button>
+        <button class="opt" id="roi-pay-mid" onclick="setROIPay('mid')">Unsure -- employed but dispute it</button>
+        <button class="opt" id="roi-pay-low" onclick="setROIPay('low')">Unlikely -- they may skip out</button>
+      </div>
+    </div>
+    <div class="section">
+      <span class="lbl">How strong is your evidence?</span>
+      <div class="opts">
+        <button class="opt on" id="roi-ev-strong" onclick="setROIEvidence('strong')">Strong -- contracts, receipts, texts</button>
+        <button class="opt" id="roi-ev-mid" onclick="setROIEvidence('mid')">Moderate -- some documentation</button>
+        <button class="opt" id="roi-ev-weak" onclick="setROIEvidence('weak')">Weak -- mostly my word vs theirs</button>
+      </div>
+    </div>
+    <div id="roi-result"></div>
+  </div>
+
+  <!-- CASE STRENGTH METER -->
+  <div class="panel" id="panel-strength">
+    <h2>Case Strength Meter</h2>
+    <p class="sub">Judges decide cases on evidence, not emotions. Answer these questions honestly to see how strong your case is -- and what you can do to strengthen it before you file.</p>
+    <div id="strength-questions"></div>
+    <div id="strength-result"></div>
+  </div>
+
+  <!-- DEFENDANT GUIDE -->
+  <div class="panel" id="panel-defendant">
+    <h2>I Have Been Sued in Small Claims Court</h2>
+    <p class="sub">Being sued is stressful. Most guides only help plaintiffs. This one is for you. Here is exactly what to do, what your rights are, and how to protect yourself.</p>
+    <div class="fb fb-b"><div class="ico">&#128736;</div><div><strong>First: do not panic.</strong> Being sued in small claims court does not mean you will lose. Plaintiffs have to prove their case. You have every right to defend yourself, present your own evidence, and even countersue.</div></div>
+    <div id="defendant-content"></div>
+  </div>
+
+  <!-- COURT SCRIPT -->
+  <div class="panel" id="panel-script">
+    <h2>Court Day Script Generator</h2>
+    <p class="sub">Most people lose not because their case was weak -- but because they did not know what to say. This generates a personalized script for your hearing based on your case type.</p>
+    <div class="fb fb-a"><div class="ico">&#9888;</div><div>This script is a starting framework only -- not legal advice. Adapt it to your specific facts. Practice reading it out loud at least 3 times before your hearing. Judges appreciate brevity and clarity over emotional appeals.</div></div>
+    <div class="section" style="margin-top:14px">
+      <span class="lbl">Are you the plaintiff (you are suing) or defendant (you are being sued)?</span>
+      <div class="opts">
+        <button class="opt on" id="script-p-btn" onclick="setScriptRole('plaintiff')">I am the plaintiff -- I filed the claim</button>
+        <button class="opt" id="script-d-btn" onclick="setScriptRole('defendant')">I am the defendant -- I was sued</button>
+      </div>
+    </div>
+    <div class="section">
+      <span class="lbl">Case type</span>
+      <select id="script-type" onchange="generateScript()">
+        <option value="">Select case type...</option>
+        <option value="contractor">Contractor or renovation dispute</option>
+        <option value="landlord">Security deposit or landlord dispute</option>
+        <option value="debt">Unpaid debt or loan</option>
+        <option value="car">Car accident or vehicle damage</option>
+        <option value="product">Defective product</option>
+        <option value="services">Services not delivered</option>
+        <option value="employment">Unpaid wages</option>
+      </select>
+    </div>
+    <div class="grid2">
+      <div class="section">
+        <span class="lbl">Your name</span>
+        <input type="text" id="script-name" placeholder="e.g. John Smith">
+      </div>
+      <div class="section">
+        <span class="lbl">Other party name</span>
+        <input type="text" id="script-other" placeholder="e.g. ABC Contracting">
+      </div>
+    </div>
+    <div class="section">
+      <span class="lbl">Amount claimed</span>
+      <input type="number" id="script-amount" placeholder="e.g. 3500">
+    </div>
+    <button class="btn" onclick="generateScript()" style="margin-top:4px">Generate my court script</button>
+    <div id="script-output" style="display:none;margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Your personalized court script</div>
+        <div style="display:flex;gap:8px">
+          <button class="copy-btn" onclick="copyScript()">Copy script</button>
+          <button class="copy-btn" onclick="window.print()">Print</button>
+        </div>
+      </div>
+      <div class="demand-output" id="script-text"></div>
+      <div class="fb fb-g" style="margin-top:12px"><div class="ico">&#10003;</div><div>Practice this out loud 3 times. Keep each statement under 30 seconds. Let the judge ask questions -- do not volunteer extra information. Bring printed copies of every document you mention.</div></div>
+    </div>
+  </div>
+
   <!-- LEGAL RESOURCES / AFFILIATES -->
   <div style="margin-top:32px;padding:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg)">
     <div style="font-size:17px;font-weight:900;color:var(--text);margin-bottom:6px">Need more help?</div>
@@ -940,6 +1091,399 @@ function setLimitsTab(c){
   var btns=document.querySelectorAll('#panel-limits .tab-btn');
   btns.forEach(function(b){b.classList.remove('active');if(b.textContent.indexOf(c==='CA'?'Canada':'United States')>-1)b.classList.add('active');});
 }
+// ── COURT FINDER ──────────────────────────────────────────────────────────────
+var cfCountry='CA';
+function setCFCountry(c){
+  cfCountry=c;
+  document.getElementById('cf-ca-btn').className='opt'+(c==='CA'?' on':'');
+  document.getElementById('cf-us-btn').className='opt'+(c==='US'?' on':'');
+  document.getElementById('cf-results').innerHTML='';
+  var inp=document.getElementById('cf-search');
+  if(inp)inp.value='';
+}
+
+var CA_COURTS={
+  'Toronto':{'name':'Toronto Small Claims Court','address':'47 Sheppard Ave E, Toronto ON M2N 5X5','phone':'416-326-3554','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Ottawa':{'name':'Ottawa Small Claims Court','address':'161 Elgin St, Ottawa ON K2P 2K1','phone':'613-239-1425','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Mississauga':{'name':'Brampton Small Claims Court','address':'7755 Hurontario St, Brampton ON L6W 4T1','phone':'905-456-4700','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Brampton':{'name':'Brampton Small Claims Court','address':'7755 Hurontario St, Brampton ON L6W 4T1','phone':'905-456-4700','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Hamilton':{'name':'Hamilton Small Claims Court','address':'45 Main St E, Hamilton ON L8N 2B7','phone':'905-645-5252','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'London':{'name':'London Small Claims Court','address':'80 Dundas St, London ON N6A 6A3','phone':'519-660-3000','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Kitchener':{'name':'Kitchener Small Claims Court','address':'85 Frederick St, Kitchener ON N2H 0A7','phone':'519-741-4224','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Windsor':{'name':'Windsor Small Claims Court','address':'245 Windsor Ave, Windsor ON N9A 1J2','phone':'519-973-6622','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Barrie':{'name':'Barrie Small Claims Court','address':'75 Mulcaster St, Barrie ON L4M 3P2','phone':'705-739-6111','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Kingston':{'name':'Kingston Small Claims Court','address':'5 Court St, Kingston ON K7L 2N4','phone':'613-548-6823','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Owen Sound':{'name':'Owen Sound Small Claims Court','address':'1000 2nd Ave E, Owen Sound ON N4K 2H5','phone':'519-371-5374','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Sudbury':{'name':'Sudbury Small Claims Court','address':'155 Elm St, Sudbury ON P3C 1T9','phone':'705-564-7600','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Thunder Bay':{'name':'Thunder Bay Small Claims Court','address':'277 Camelot St, Thunder Bay ON P7A 4B3','phone':'807-343-2710','hours':'Mon-Fri 8:30am-5pm','online':'https://www.ontario.ca/page/suing-someone-small-claims-court','limit':'$50,000','fee':'$102-$204'},
+  'Vancouver':{'name':'Vancouver Small Claims Court','address':'800 Hornby St, Vancouver BC V6Z 2C5','phone':'604-660-8989','hours':'Mon-Fri 9am-4pm','online':'https://www2.gov.bc.ca/gov/content/justice/courthouse-services/small-claims','limit':'$35,000','fee':'$100-$200'},
+  'Surrey':{'name':'Surrey Small Claims Court','address':'14340 57 Ave, Surrey BC V3X 1B2','phone':'604-572-2211','hours':'Mon-Fri 9am-4pm','online':'https://www2.gov.bc.ca/gov/content/justice/courthouse-services/small-claims','limit':'$35,000','fee':'$100-$200'},
+  'Victoria':{'name':'Victoria Small Claims Court','address':'850 Burdett Ave, Victoria BC V8W 1B4','phone':'250-356-1478','hours':'Mon-Fri 9am-4pm','online':'https://www2.gov.bc.ca/gov/content/justice/courthouse-services/small-claims','limit':'$35,000','fee':'$100-$200'},
+  'Kelowna':{'name':'Kelowna Small Claims Court','address':'1355 Water St, Kelowna BC V1Y 9R3','phone':'250-470-6900','hours':'Mon-Fri 9am-4pm','online':'https://www2.gov.bc.ca/gov/content/justice/courthouse-services/small-claims','limit':'$35,000','fee':'$100-$200'},
+  'Calgary':{'name':'Calgary Civil Claims Court','address':'601 5 St SW, Calgary AB T2P 5P7','phone':'403-297-3800','hours':'Mon-Fri 8am-4:30pm','online':'https://www.alberta.ca/civil-claims-court','limit':'$50,000','fee':'$100-$200'},
+  'Edmonton':{'name':'Edmonton Civil Claims Court','address':'1A Sir Winston Churchill Square, Edmonton AB T5J 0R2','phone':'780-422-2266','hours':'Mon-Fri 8am-4:30pm','online':'https://www.alberta.ca/civil-claims-court','limit':'$50,000','fee':'$100-$200'},
+  'Red Deer':{'name':'Red Deer Civil Claims Court','address':'4909 48 Ave, Red Deer AB T4N 3T5','phone':'403-340-5540','hours':'Mon-Fri 8am-4:30pm','online':'https://www.alberta.ca/civil-claims-court','limit':'$50,000','fee':'$100-$200'},
+  'Montreal':{'name':'Montreal Small Claims Court','address':'1 Notre-Dame St E, Montreal QC H2Y 1B6','phone':'514-393-2721','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.justice.gouv.qc.ca/en/programs-and-services/courts/court-of-quebec/civil-division/small-claims/','limit':'$15,000','fee':'$97-$223'},
+  'Quebec City':{'name':'Quebec City Small Claims Court','address':'300 Jean-Lesage Blvd, Quebec City QC G1K 8K6','phone':'418-649-3400','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.justice.gouv.qc.ca/en/programs-and-services/courts/court-of-quebec/civil-division/small-claims/','limit':'$15,000','fee':'$97-$223'},
+  'Winnipeg':{'name':'Winnipeg Small Claims Court','address':'408 York Ave, Winnipeg MB R3C 0P9','phone':'204-945-3461','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.gov.mb.ca/justice/courts/small/index.html','limit':'$10,000','fee':'$65-$130'},
+  'Saskatoon':{'name':'Saskatoon Small Claims Court','address':'520 Spadina Cres E, Saskatoon SK S7K 3G7','phone':'306-933-5118','hours':'Mon-Fri 8am-5pm','online':'https://www.saskatchewan.ca/business/small-claims','limit':'$20,000','fee':'$75-$150'},
+  'Regina':{'name':'Regina Small Claims Court','address':'2425 Victoria Ave, Regina SK S4P 3V7','phone':'306-787-5250','hours':'Mon-Fri 8am-5pm','online':'https://www.saskatchewan.ca/business/small-claims','limit':'$20,000','fee':'$75-$150'},
+  'Halifax':{'name':'Halifax Small Claims Court','address':'5250 Spring Garden Rd, Halifax NS B3J 1E7','phone':'902-424-4800','hours':'Mon-Fri 8:30am-4:30pm','online':'https://novascotia.ca/courts/small-claims/','limit':'$25,000','fee':'$99-$199'}
+};
+
+var US_COURTS={
+  'Los Angeles':{'name':'Los Angeles Superior Court -- Small Claims','address':'111 N Hill St, Los Angeles CA 90012','phone':'213-830-0803','hours':'Mon-Fri 8:30am-4:30pm','online':'https://selfhelp.courts.ca.gov/small-claims-california','limit':'$12,500','fee':'$30-$75'},
+  'San Francisco':{'name':'San Francisco Superior Court -- Small Claims','address':'400 McAllister St, San Francisco CA 94102','phone':'415-551-3837','hours':'Mon-Fri 8:30am-4pm','online':'https://selfhelp.courts.ca.gov/small-claims-california','limit':'$12,500','fee':'$30-$75'},
+  'San Diego':{'name':'San Diego Superior Court -- Small Claims','address':'330 W Broadway, San Diego CA 92101','phone':'619-450-7084','hours':'Mon-Fri 8:30am-4pm','online':'https://selfhelp.courts.ca.gov/small-claims-california','limit':'$12,500','fee':'$30-$75'},
+  'Houston':{'name':'Houston Justice of the Peace Courts','address':'201 Caroline St, Houston TX 77002','phone':'713-274-4200','hours':'Mon-Fri 8am-5pm','online':'https://www.jp.harris.tx.us','limit':'$20,000','fee':'$31-$100'},
+  'Dallas':{'name':'Dallas Justice Court Small Claims','address':'600 Commerce St, Dallas TX 75202','phone':'214-653-7236','hours':'Mon-Fri 8am-5pm','online':'https://www.dallascounty.org','limit':'$20,000','fee':'$31-$100'},
+  'Austin':{'name':'Austin Justice Courts','address':'700 Lavaca St, Austin TX 78701','phone':'512-854-9457','hours':'Mon-Fri 8am-5pm','online':'https://www.traviscountytx.gov/justice-courts','limit':'$20,000','fee':'$31-$100'},
+  'Miami':{'name':'Miami-Dade County Small Claims Court','address':'73 W Flagler St, Miami FL 33130','phone':'305-275-1155','hours':'Mon-Fri 8am-5pm','online':'https://www.miamidadeclerk.com','limit':'$8,000','fee':'$55-$300'},
+  'Orlando':{'name':'Orange County Small Claims Court','address':'425 N Orange Ave, Orlando FL 32801','phone':'407-836-2060','hours':'Mon-Fri 8am-5pm','online':'https://www.myorangeclerk.com','limit':'$8,000','fee':'$55-$300'},
+  'New York City':{'name':'NYC Civil Court Small Claims','address':'111 Centre St, New York NY 10013','phone':'646-386-5444','hours':'Mon-Fri 9am-5pm, evenings available','online':'https://www.nycourts.gov/courts/nyc/civil/smallclaims.shtml','limit':'$10,000','fee':'$15-$20'},
+  'Brooklyn':{'name':'Brooklyn Civil Court Small Claims','address':'141 Livingston St, Brooklyn NY 11201','phone':'347-404-9133','hours':'Mon-Fri 9am-5pm, evenings available','online':'https://www.nycourts.gov/courts/nyc/civil/smallclaims.shtml','limit':'$10,000','fee':'$15-$20'},
+  'Chicago':{'name':'Chicago Circuit Court Small Claims','address':'50 W Washington St, Chicago IL 60602','phone':'312-603-5030','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.cookcountyclerkofcourt.org','limit':'$10,000','fee':'$60-$250'},
+  'Phoenix':{'name':'Phoenix Justice Courts','address':'620 W Jackson St, Phoenix AZ 85003','phone':'602-372-8530','hours':'Mon-Fri 8am-5pm','online':'https://justicecourts.maricopa.gov','limit':'$3,500','fee':'$30-$75'},
+  'Philadelphia':{'name':'Philadelphia Municipal Court Small Claims','address':'34 S 11th St, Philadelphia PA 19107','phone':'215-686-7292','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.courts.phila.gov','limit':'$12,000','fee':'$30-$75'},
+  'Seattle':{'name':'King County District Court Small Claims','address':'516 3rd Ave, Seattle WA 98104','phone':'206-296-9300','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.kingcounty.gov/en/dept/district-court','limit':'$10,000','fee':'$14-$50'},
+  'Denver':{'name':'Denver County Court Small Claims','address':'1437 Bannock St, Denver CO 80202','phone':'720-865-8301','hours':'Mon-Fri 8am-5pm','online':'https://www.denvercountycourt.org','limit':'$7,500','fee':'$31-$55'},
+  'Atlanta':{'name':'Fulton County Magistrate Court','address':'185 Central Ave SW, Atlanta GA 30303','phone':'404-613-5781','hours':'Mon-Fri 8am-5pm','online':'https://www.fultoncountyga.gov/courts/magistrate-court','limit':'$15,000','fee':'$45-$75'},
+  'Boston':{'name':'Boston Municipal Court Small Claims','address':'24 New Chardon St, Boston MA 02114','phone':'617-788-8700','hours':'Mon-Fri 8:30am-4:30pm','online':'https://www.mass.gov/orgs/boston-municipal-court','limit':'$7,000','fee':'$40-$150'},
+  'Las Vegas':{'name':'Las Vegas Justice Court','address':'200 Lewis Ave, Las Vegas NV 89101','phone':'702-671-3200','hours':'Mon-Fri 8am-5pm','online':'https://www.clarkcountycourts.us','limit':'$10,000','fee':'$30-$100'},
+  'Nashville':{'name':'Nashville General Sessions Court','address':'1 Public Square, Nashville TN 37201','phone':'615-862-5181','hours':'Mon-Fri 8am-4:30pm','online':'https://www.nashville.gov/courts','limit':'$25,000','fee':'$30-$60'},
+  'Charlotte':{'name':'Charlotte Mecklenburg Small Claims Court','address':'700 E Trade St, Charlotte NC 28202','phone':'704-686-0400','hours':'Mon-Fri 8am-5pm','online':'https://www.nccourts.gov','limit':'$10,000','fee':'$96-$150'}
+};
+
+function searchCourts(q){
+  var el=document.getElementById('cf-results');
+  if(!q||q.length<2){el.innerHTML='';return;}
+  var db=cfCountry==='CA'?CA_COURTS:US_COURTS;
+  var matches=Object.keys(db).filter(function(city){
+    return city.toLowerCase().indexOf(q.toLowerCase())>-1;
+  });
+  if(matches.length===0){
+    el.innerHTML='<div class="fb fb-a" style="margin-top:12px"><div class="ico">&#128269;</div><div>No court found for "'+q+'". For courts not in our database, search "[your city] small claims court" on Google or visit your province/state official court website.</div></div>';
+    return;
+  }
+  var html='';
+  matches.slice(0,5).forEach(function(city){
+    var c=db[city];
+    html+='<div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-top:12px">';
+    html+='<div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:10px">'+c.name+'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
+    html+='<div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">ADDRESS</div><div style="font-size:13px;color:var(--text2)">'+c.address+'</div></div>';
+    html+='<div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">PHONE</div><div style="font-size:13px;color:var(--text2)">'+c.phone+'</div></div>';
+    html+='<div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">HOURS</div><div style="font-size:13px;color:var(--text2)">'+c.hours+'</div></div>';
+    html+='<div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">CLAIM LIMIT</div><div style="font-size:14px;font-weight:700;color:var(--red);font-family:Space Mono,monospace">'+c.limit+'</div></div>';
+    html+='</div>';
+    html+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+    html+='<a href="'+c.online+'" target="_blank" style="padding:8px 16px;background:var(--red);color:#fff;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none">Official filing website</a>';
+    html+='<a href="https://maps.google.com?q='+encodeURIComponent(c.address)+'" target="_blank" style="padding:8px 16px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none">Get directions</a>';
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+// ── ROI CALCULATOR ────────────────────────────────────────────────────────────
+var roiCountry='CA';
+var roiPayability='high';
+var roiEvidence='strong';
+
+function setROICountry(c){roiCountry=c;document.getElementById('roi-ca-btn').className='opt'+(c==='CA'?' on':'');document.getElementById('roi-us-btn').className='opt'+(c==='US'?' on':'');calcROI();}
+function setROIPay(v){roiPayability=v;['high','mid','low'].forEach(function(x){document.getElementById('roi-pay-'+x).className='opt'+(x===v?' on':'');});calcROI();}
+function setROIEvidence(v){roiEvidence=v;['strong','mid','weak'].forEach(function(x){document.getElementById('roi-ev-'+x).className='opt'+(x===v?' on':'');});calcROI();}
+
+function calcROI(){
+  var amount=+document.getElementById('roi-amount').value||0;
+  var hours=+document.getElementById('roi-hours').value||3;
+  if(!amount){document.getElementById('roi-result').innerHTML='';return;}
+  var filingFee=roiCountry==='CA'?152:65;
+  var servingCost=roiCountry==='CA'?75:85;
+  var hourlyValue=35;
+  var totalCost=filingFee+servingCost+(hours*hourlyValue);
+  var winChance=roiEvidence==='strong'?0.78:roiEvidence==='mid'?0.55:0.35;
+  var collectChance=roiPayability==='high'?0.85:roiPayability==='mid'?0.55:0.25;
+  var expectedValue=amount*winChance*collectChance;
+  var netValue=expectedValue-totalCost;
+  var roi=Math.round((netValue/totalCost)*100);
+  var el=document.getElementById('roi-result');
+  var html='<div style="margin-top:16px">';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">';
+  html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center"><div style="font-size:11px;color:var(--text3);margin-bottom:4px">ESTIMATED COSTS</div><div style="font-size:20px;font-weight:900;color:#dc2626;font-family:Space Mono,monospace">$'+Math.round(totalCost)+'</div><div style="font-size:11px;color:var(--text3)">filing + serving + time</div></div>';
+  html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center"><div style="font-size:11px;color:var(--text3);margin-bottom:4px">EXPECTED RECOVERY</div><div style="font-size:20px;font-weight:900;color:var(--green);font-family:Space Mono,monospace">$'+Math.round(expectedValue)+'</div><div style="font-size:11px;color:var(--text3)">win rate x collection rate</div></div>';
+  html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center"><div style="font-size:11px;color:var(--text3);margin-bottom:4px">NET OUTCOME</div><div style="font-size:20px;font-weight:900;color:'+(netValue>0?'var(--green)':'#dc2626')+';font-family:Space Mono,monospace">'+(netValue>=0?'+':'')+Math.round(netValue)+'</div><div style="font-size:11px;color:var(--text3)">after all costs</div></div>';
+  html+='</div>';
+  if(netValue>200&&amount>=500){
+    html+='<div class="fb fb-g"><div class="ico">&#10003;</div><div><strong>Worth pursuing.</strong> Your expected net recovery of $'+Math.round(netValue)+' makes this case financially worthwhile. Send a demand letter first -- about 30% of cases settle without going to court. If they ignore it, file.</div></div>';
+  }else if(netValue>0&&amount>=200){
+    html+='<div class="fb fb-a"><div class="ico">&#9888;</div><div><strong>Marginally worth it.</strong> Expected net recovery is only $'+Math.round(netValue)+'. Consider whether a settlement for $'+Math.round(amount*0.7)+' would save you the time and stress of court. A strong demand letter might get that result quickly.</div></div>';
+  }else{
+    html+='<div class="fb fb-r"><div class="ico">&#9888;</div><div><strong>Financially questionable.</strong> Based on your inputs, the cost of pursuing this claim may approach or exceed what you recover. Consider: (1) send a strongly-worded demand letter -- it costs almost nothing and sometimes works, (2) negotiate a partial settlement, or (3) write it off and focus your energy elsewhere.</div></div>';
+  }
+  html+='<div style="font-size:12px;color:var(--text3);margin-top:10px">Assumptions: filing fee $'+filingFee+', serving $'+servingCost+', your time valued at $'+hourlyValue+'/hr. Win rate: '+Math.round(winChance*100)+'%. Collection rate: '+Math.round(collectChance*100)+'%. These are estimates only.</div>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+// ── CASE STRENGTH METER ───────────────────────────────────────────────────────
+var strengthAnswers={};
+var STRENGTH_Q=[
+  {id:'contract',q:'Do you have a written contract, invoice, or receipt?',yes:20,no:-10,hint:'Written evidence is the single most important factor. Even a text message saying "you owe me $X" counts.'},
+  {id:'demand',q:'Did you send a demand letter before filing?',yes:10,no:0,hint:'Most courts view this favourably. It also shows you tried to resolve it first.'},
+  {id:'texts',q:'Do you have text messages or emails supporting your claim?',yes:15,no:0,hint:'Digital communications are powerful evidence. Screenshot everything and back it up.'},
+  {id:'witnesses',q:'Do you have any witnesses who can testify on your behalf?',yes:15,no:0,hint:'Even one credible witness can significantly strengthen a weak paper case.'},
+  {id:'photos',q:'Do you have photos or videos relevant to your claim?',yes:15,no:0,hint:'Visual evidence is very persuasive. Date-stamped photos are best.'},
+  {id:'amount',q:'Is your claim amount clearly calculable (not estimated)?',yes:10,no:-5,hint:'Judges dislike speculative damages. The clearer your number, the stronger your case.'},
+  {id:'limitation',q:'Is your claim within the statute of limitations?',yes:10,no:-30,hint:'If you are outside the limitation period, you likely cannot file at all.'},
+  {id:'defendant',q:'Do you know the defendant's full legal name and address?',yes:5,no:-10,hint:'You cannot serve someone you cannot locate. For businesses, find the registered name in the corporate registry.'}
+];
+
+function initStrengthQuestions(){
+  var el=document.getElementById('strength-questions');
+  if(!el)return;
+  var html='';
+  STRENGTH_Q.forEach(function(q){
+    html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px">';
+    html+='<div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px">'+q.q+'</div>';
+    html+='<div style="font-size:12px;color:var(--text3);margin-bottom:10px;font-style:italic">'+q.hint+'</div>';
+    html+='<div class="opts">';
+    html+='<button class="opt'+(strengthAnswers[q.id]==='yes'?' on':'')+'" onclick="setStrength(''+q.id+'','yes')">Yes</button>';
+    html+='<button class="opt'+(strengthAnswers[q.id]==='no'?' on':'')+'" onclick="setStrength(''+q.id+'','no')">No</button>';
+    html+='<button class="opt'+(strengthAnswers[q.id]==='unsure'?' on':'')+'" onclick="setStrength(''+q.id+'','unsure')">Not sure</button>';
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+  calcStrength();
+}
+function setStrength(id,val){
+  strengthAnswers[id]=val;
+  initStrengthQuestions();
+}
+function calcStrength(){
+  var answered=Object.keys(strengthAnswers).length;
+  if(answered<3){
+    document.getElementById('strength-result').innerHTML='<div style="font-size:13px;color:var(--text3);margin-top:8px">Answer at least 3 questions to see your case strength score.</div>';
+    return;
+  }
+  var score=50;
+  STRENGTH_Q.forEach(function(q){
+    var ans=strengthAnswers[q.id];
+    if(ans==='yes')score+=q.yes;
+    else if(ans==='no')score+=q.no;
+  });
+  score=Math.max(0,Math.min(100,score));
+  var label=score>=80?'Very strong':score>=65?'Strong':score>=45?'Moderate':score>=30?'Weak':'Very weak';
+  var color=score>=80?'var(--green)':score>=65?'var(--green)':score>=45?'var(--gold)':'#dc2626';
+  var el=document.getElementById('strength-result');
+  var html='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-top:14px;text-align:center">';
+  html+='<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Case strength score</div>';
+  html+='<div style="font-size:56px;font-weight:900;color:'+color+';font-family:Space Mono,monospace;line-height:1">'+score+'</div>';
+  html+='<div style="font-size:18px;font-weight:700;color:'+color+';margin-top:4px">'+label+'</div>';
+  html+='<div style="width:'+(score)+'%;height:8px;background:'+color+';border-radius:4px;margin:12px auto 0;transition:width 0.5s;max-width:300px"></div>';
+  html+='</div>';
+  if(score>=80){
+    html+='<div class="fb fb-g" style="margin-top:10px"><div class="ico">&#10003;</div><div><strong>You have a very strong case.</strong> File with confidence. Focus your preparation on organizing your evidence in a clear, numbered exhibit list and preparing a concise 2-minute opening statement.</div></div>';
+  }else if(score>=65){
+    html+='<div class="fb fb-g" style="margin-top:10px"><div class="ico">&#10003;</div><div><strong>Strong case.</strong> You are likely to prevail with good preparation. Gather any missing documentation and prepare clear, organized exhibits before your hearing.</div></div>';
+  }else if(score>=45){
+    html+='<div class="fb fb-a" style="margin-top:10px"><div class="ico">&#9888;</div><div><strong>Moderate case.</strong> You can win, but you need stronger evidence. Focus on getting any missing written records -- ask the other party via email (so you have their response in writing) and gather any witnesses who can support your account.</div></div>';
+  }else if(score>=30){
+    html+='<div class="fb fb-a" style="margin-top:10px"><div class="ico">&#9888;</div><div><strong>Weak case.</strong> This will be a difficult uphill battle. Before filing, consider whether you can gather more evidence. A demand letter might achieve more than a lawsuit at this point -- sometimes the threat of court is enough.</div></div>';
+  }else{
+    html+='<div class="fb fb-r" style="margin-top:10px"><div class="ico">&#9888;</div><div><strong>Very weak case as currently documented.</strong> Filing now risks wasting your time and money. Spend 2-3 weeks gathering every piece of evidence you can find before proceeding. Consider consulting a paralegal for advice.</div></div>';
+  }
+  el.innerHTML=html;
+}
+// Initialize when tab is shown
+var origShowTool=showTool;
+showTool=function(id){origShowTool(id);if(id==='strength')initStrengthQuestions();if(id==='defendant')initDefendant();};
+
+// ── DEFENDANT GUIDE ───────────────────────────────────────────────────────────
+function initDefendant(){
+  var el=document.getElementById('defendant-content');
+  if(el&&el.innerHTML.trim()===''){
+    var html='';
+    var steps=[
+      ['Do not ignore the claim','Ignoring a small claims lawsuit almost guarantees you will lose by default. Even if you think the claim is completely without merit, you must respond and show up. A default judgment is enforceable against your wages, bank account, and property.'],
+      ['Read everything carefully','Read the claim form thoroughly. Note the hearing date and time. Mark it in your calendar immediately. Note exactly what the plaintiff says you owe and why.'],
+      ['Gather your own evidence now','Start collecting everything relevant to your defence: contracts, receipts, photos, text messages, emails, bank records. Evidence that would help you often has an expiry -- act immediately.'],
+      ['Consider your defences','Common defences include: you already paid (get proof), the amount claimed is wrong, the plaintiff caused their own loss, the claim is outside the limitation period, the contract was cancelled or modified, or you have a legitimate dispute about quality of work.'],
+      ['Consider filing a counterclaim','If the plaintiff owes YOU money or caused you loss, you can file a counterclaim against them. This is done at the same courthouse, usually requires a small fee, and is heard at the same hearing. This often changes the entire dynamic of the dispute.'],
+      ['Try to settle before the hearing','Most disputes can be settled for less than the claimed amount. Settlement saves both sides time and uncertainty. A written settlement agreement signed by both parties ends the matter. Even settling for 60-70 cents on the dollar is often better than the risk and stress of a hearing.'],
+      ['If you have a lawyer, get advice before (not at) the hearing','Most small claims courts do not allow lawyers to represent you at the hearing. But getting 30 minutes of legal advice before your hearing can dramatically improve your defence strategy.'],
+      ['Show up prepared and on time','Arrive 20-30 minutes early. Bring 3 copies of all your evidence. Be respectful and brief. Address the judge as "Your Honour." Let the plaintiff speak first. Respond calmly and stick to facts -- not emotions.'],
+      ['If you lose, you can appeal','In most provinces and states you have 30 days to appeal a small claims decision. Appeals go to a higher court and require legal grounds, not just disagreement with the outcome.']
+    ];
+    steps.forEach(function(s,i){
+      html+='<div class="step-card"><div class="step-num">'+(i+1)+'</div><div><div class="step-title">'+s[0]+'</div><div class="step-desc">'+s[1]+'</div></div></div>';
+    });
+    html+='<div style="margin-top:20px;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)">';
+    html+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px">Your rights as a defendant</div>';
+    html+='<div style="font-size:13px;color:var(--text2);line-height:1.75">';
+    html+='You have the right to: see all evidence the plaintiff plans to use (request disclosure before the hearing), bring your own witnesses, cross-examine the plaintiff and their witnesses, file a counterclaim, request an adjournment if you need more time to prepare, and appeal the decision. The plaintiff must prove their case -- you do not have to prove your innocence.';
+    html+='</div></div>';
+    el.innerHTML=html;
+  }
+}
+
+// ── COURT SCRIPT ──────────────────────────────────────────────────────────────
+var scriptRole='plaintiff';
+function setScriptRole(r){
+  scriptRole=r;
+  document.getElementById('script-p-btn').className='opt'+(r==='plaintiff'?' on':'');
+  document.getElementById('script-d-btn').className='opt'+(r==='defendant'?' on':'');
+}
+function generateScript(){
+  var type=document.getElementById('script-type').value;
+  var name=document.getElementById('script-name').value.trim()||'[Your Name]';
+  var other=document.getElementById('script-other').value.trim()||'[Other Party]';
+  var amount=document.getElementById('script-amount').value.trim()||'[amount]';
+  if(!type){document.getElementById('script-output').style.display='none';return;}
+  var isP=scriptRole==='plaintiff';
+  var typeDescMap={
+    contractor:'hired '+other+' to perform renovation work',
+    landlord:isP?'paid a security deposit to '+other+' which was not returned':'rented property from '+other,
+    debt:isP?other+' owes me money I lent them':'borrowed money from '+other,
+    car:'was involved in a vehicle accident involving '+other,
+    product:'purchased a defective product from '+other,
+    services:'paid '+other+' for services that were not delivered',
+    employment:isP?other+' owes me unpaid wages':'employed '+other
+  };
+  var typeDesc=typeDescMap[type]||'have a dispute with '+other;
+  var script='';
+  if(isP){
+    script='OPENING STATEMENT (say when the judge asks you to begin)
+';
+    script+='================================================
+
+';
+    script+='"Your Honour, my name is '+name+'. I am the plaintiff in this matter.
+
+';
+    script+='I am here today because I '+typeDesc+', and I am claiming $'+amount+' in damages.
+
+';
+    script+='Here is what happened: [State your facts clearly and chronologically. Keep this under 2 minutes. Stick to facts, not emotions.]
+
+';
+    script+='I attempted to resolve this matter directly by sending a demand letter on [date], which '+other+' did not respond to satisfactorily.
+
+';
+    script+='I have the following evidence to support my claim: [list your exhibits by number].
+
+';
+    script+='I am asking the court to award me $'+amount+', which represents [explain what the amount covers].
+
+';
+    script+='Thank you."
+
+';
+    script+='RESPONDING TO THE OTHER SIDE
+';
+    script+='=============================
+
+';
+    script+='"Your Honour, I would like to respond to what '+other+' just said."
+
+';
+    script+='[Then calmly correct any factual errors with your evidence. Do not get emotional. Say: "The evidence shows..." or "Exhibit [number] demonstrates..."]
+
+';
+    script+='CLOSING (if the judge asks)
+';
+    script+='============================
+
+';
+    script+='"Your Honour, the evidence clearly establishes that '+other+' owes me $'+amount+'. I respectfully ask the court to find in my favour. Thank you."
+
+';
+    script+='TIPS FOR YOUR HEARING
+';
+    script+='======================
+';
+    script+='- Refer to your evidence: "As you can see in Exhibit 1..." "The text messages in Exhibit 3 show..."
+';
+    script+='- Never interrupt. Wait for the other party to finish speaking.
+';
+    script+='- If you do not understand a question, say "I am sorry, could you please repeat that?"
+';
+    script+='- If the judge asks a yes/no question, answer yes or no first, then explain briefly.
+';
+    script+='- Do not argue with the other party directly -- address the judge.
+';
+    script+='- If you forgot something, ask: "May I add something, Your Honour?"';
+  }else{
+    script='OPENING STATEMENT AS DEFENDANT (say when the judge asks you)
+';
+    script+='=============================================================
+
+';
+    script+='"Your Honour, my name is '+name+'. I am the defendant.
+
+';
+    script+='I deny owing '+other+' the amount claimed.
+
+';
+    script+='My position is: [State your defence clearly and briefly. Keep it under 90 seconds.]
+
+';
+    script+='Specifically: [Give 2-3 key facts that support your defence.]
+
+';
+    script+='I have the following evidence to support my position: [list your exhibits]."
+
+';
+    script+='CROSS-EXAMINING THE PLAINTIFF
+';
+    script+='================================
+
+';
+    script+='When '+other+' finishes their statement, you may ask questions. Focus on:
+
+';
+    script+='"'+other+', is it true that [fact that helps your defence]?"
+';
+    script+='"Can you show the court where in [exhibit] it says [claim they made]?"
+';
+    script+='"Is it correct that on [date], you [action that weakens their case]?"
+
+';
+    script+='RESPONDING TO THEIR EVIDENCE
+';
+    script+='================================
+
+';
+    script+='"Your Honour, regarding Exhibit [X] presented by the plaintiff, I would like to point out that [explain why it does not support their claim or how it supports yours]."
+
+';
+    script+='CLOSING
+';
+    script+='==========
+
+';
+    script+='"Your Honour, the plaintiff has not met the burden of proof required to establish their claim. [Summarize your strongest 2 points.] I respectfully ask the court to dismiss this claim. Thank you."
+
+';
+    script+='TIPS FOR DEFENDANTS
+';
+    script+='=====================
+';
+    script+='- The burden of proof is on the plaintiff -- they have to prove their case, not you.
+';
+    script+='- You do not have to prove you are innocent -- you just need to create reasonable doubt.
+';
+    script+='- If they make a claim without evidence, say: "I would ask the plaintiff to show the court the evidence for that claim."
+';
+    script+='- Stay calm. Angry defendants often look guilty even when they are not.';
+  }
+  document.getElementById('script-text').textContent=script;
+  document.getElementById('script-output').style.display='block';
+  document.getElementById('script-output').scrollIntoView({behavior:'smooth'});
+}
+function copyScript(){
+  navigator.clipboard.writeText(document.getElementById('script-text').textContent).then(function(){toast('Script copied!');});
+}
+
 </script>
 </body>
 </html>
