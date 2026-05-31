@@ -10,78 +10,80 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --red:#1d4ed8;--red2:#1e40af;--red-dim:rgba(29,78,216,0.07);--red-border:rgba(29,78,216,0.2);
-  --green:#16a34a;--green-dim:rgba(22,163,74,0.08);--green-border:rgba(22,163,74,0.2);
-  --gold:#d97706;--gold-dim:rgba(217,119,6,0.08);--gold-border:rgba(217,119,6,0.2);
-  --purple:#7c3aed;--purple-dim:rgba(124,58,237,0.07);
-  --bg:#f8fafc;--bg2:#ffffff;--bg3:#f1f5f9;
-  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
-  --border:#e2e8f0;--border2:#cbd5e1;
-  --shadow:0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
-  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+  --red:#1d4ed8;--red2:#1e3a8a;--red-dim:rgba(29,78,216,0.08);--red-border:rgba(29,78,216,0.25);
+  --green:#15803d;--green-dim:rgba(21,128,61,0.08);--green-border:rgba(21,128,61,0.25);
+  --gold:#b45309;--gold-dim:rgba(180,83,9,0.08);--gold-border:rgba(180,83,9,0.25);
+  --purple:#6d28d9;--purple-dim:rgba(109,40,217,0.07);
+  --bg:#f0f4ff;--bg2:#ffffff;--bg3:#e8eef8;
+  --text:#0a1628;--text2:#334155;--text3:#64748b;
+  --border:#cbd5e8;--border2:#94a3b8;
+  --shadow:0 2px 8px rgba(29,78,216,0.08);
+  --shadow-md:0 4px 16px rgba(29,78,216,0.12);
+  --radius:12px;--radius-sm:8px;--radius-lg:20px;
 }
 .dark{
-  --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
-  --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
-  --border:#334155;--border2:#475569;
-  --red:#60a5fa;--red2:#3b82f6;--red-dim:rgba(96,165,250,0.1);--red-border:rgba(96,165,250,0.25);
+  --bg:#060d1f;--bg2:#0f1e38;--bg3:#162040;
+  --text:#e8f0ff;--text2:#93afd4;--text3:#4a6080;
+  --border:#1e3050;--border2:#2a4060;
+  --red:#60a5fa;--red2:#3b82f6;--red-dim:rgba(96,165,250,0.1);--red-border:rgba(96,165,250,0.3);
+  --green:#4ade80;--green-dim:rgba(74,222,128,0.08);--green-border:rgba(74,222,128,0.25);
+  --gold:#fbbf24;--gold-dim:rgba(251,191,36,0.08);--gold-border:rgba(251,191,36,0.25);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.hdr{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:12px 20px}
-.hdr-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:19px;font-weight:900;letter-spacing:-0.5px;color:var(--text)}
-.logo span{color:var(--red)}
-.logo-sub{font-size:10px;color:var(--text3);margin-top:1px}
-.theme-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:16px;transition:all 0.2s}
-.theme-btn:hover{border-color:var(--red)}
-.wrap{max-width:800px;margin:0 auto;padding:28px 20px 100px}
-.hero{background:linear-gradient(135deg,var(--red-dim),var(--bg2));border:1px solid var(--red-border);border-radius:var(--radius-lg);padding:28px;margin-bottom:28px;text-align:center}
-.hero h1{font-size:30px;font-weight:900;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px}
-.hero p{font-size:15px;color:var(--text2);line-height:1.75;max-width:560px;margin:0 auto 20px}
-.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:16px}
-.tool-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 14px;cursor:pointer;transition:all 0.15s;text-align:center}
-.tool-card:hover{border-color:var(--red-border);background:var(--red-dim);transform:translateY(-2px)}
-.tool-card.active{border:2px solid var(--red);background:var(--red-dim)}
-.tool-ico{font-size:28px;margin-bottom:8px}
-.tool-name{font-size:13px;font-weight:700;color:var(--text)}
-.tool-card:hover .tool-name,.tool-card.active .tool-name{color:var(--red)}
-.tool-desc{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4}
+.hdr{background:var(--bg2);border-bottom:2px solid var(--red-border);position:sticky;top:0;z-index:100;padding:14px 20px;box-shadow:var(--shadow)}
+.hdr-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:21px;font-weight:900;letter-spacing:-0.5px;color:var(--text)}
+.logo span{color:var(--red);background:var(--red-dim);padding:2px 6px;border-radius:6px}
+.logo-sub{font-size:11px;color:var(--text3);margin-top:2px;font-weight:500}
+.theme-btn{width:36px;height:36px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg3);cursor:pointer;font-size:17px;transition:all 0.2s}
+.theme-btn:hover{border-color:var(--red);background:var(--red-dim)}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 100px}
+.hero{background:linear-gradient(135deg,#1d4ed8 0%,#1e40af 50%,#1e3a8a 100%);border-radius:var(--radius-lg);padding:36px 32px;margin-bottom:32px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:rgba(255,255,255,0.05);border-radius:50%;pointer-events:none}
+.hero h1{font-size:34px;font-weight:900;letter-spacing:-0.5px;color:#fff;margin-bottom:10px;line-height:1.2}
+.hero p{font-size:16px;color:rgba(255,255,255,0.85);line-height:1.75;max-width:580px;margin:0 auto 24px}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:4px}
+.tool-card{background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--radius);padding:16px 12px;cursor:pointer;transition:all 0.15s;text-align:center;backdrop-filter:blur(4px)}
+.tool-card:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
+.tool-card.active{background:rgba(255,255,255,0.25);border:2px solid #fff}
+.tool-ico{font-size:30px;margin-bottom:8px}
+.tool-name{font-size:13px;font-weight:700;color:#fff}
+.tool-desc{font-size:11px;color:rgba(255,255,255,0.7);margin-top:3px;line-height:1.4}
 .panel{display:none;animation:fadeIn 0.3s ease}
 .panel.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-h2{font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px}
-.sub{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px}
-.lbl{font-size:14px;color:var(--text);font-weight:700;margin-bottom:8px;display:block}
-.lbl-sub{font-size:12px;color:var(--text3);font-weight:400;margin-left:6px}
-.section{margin-bottom:22px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:26px;font-weight:900;color:var(--text);margin-bottom:8px;letter-spacing:-0.5px;border-left:4px solid var(--red);padding-left:14px}
+.sub{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:22px;padding-left:18px}
+.lbl{font-size:15px;color:var(--text);font-weight:800;margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;color:var(--text3)}
+.lbl-sub{font-size:11px;color:var(--text3);font-weight:400;margin-left:6px;text-transform:none;letter-spacing:0}
+.section{margin-bottom:24px}
 input[type=text],input[type=number],input[type=date],input[type=email],select,textarea{
-  width:100%;padding:11px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);
-  font-size:14px;font-family:'Outfit',sans-serif;background:var(--bg2);color:var(--text);outline:none;transition:border 0.15s}
-input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-dim)}
-textarea{resize:vertical;min-height:100px}
+  width:100%;padding:12px 16px;border-radius:var(--radius-sm);border:2px solid var(--border);
+  font-size:15px;font-family:'Outfit',sans-serif;background:var(--bg2);color:var(--text);outline:none;transition:all 0.15s;font-weight:500}
+input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 4px var(--red-dim)}
+textarea{resize:vertical;min-height:110px}
 .opts{display:flex;gap:8px;flex-wrap:wrap}
-.opt{padding:9px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;transition:all 0.15s}
-.opt:hover{border-color:var(--red-border);color:var(--red);background:var(--red-dim)}
-.opt.on{border:2px solid var(--red);background:var(--red-dim);color:var(--red);font-weight:700}
-.btn{padding:12px 24px;border-radius:var(--radius);background:var(--red);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;box-shadow:0 4px 12px var(--red-dim)}
-.btn:hover{background:var(--red2);transform:translateY(-1px)}
-.btn-out{padding:11px 22px;border-radius:var(--radius);background:transparent;color:var(--red);font-size:14px;font-weight:700;border:2px solid var(--red-border);cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s}
+.opt{padding:10px 18px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;transition:all 0.15s}
+.opt:hover{border-color:var(--red);color:var(--red);background:var(--red-dim);transform:translateY(-1px)}
+.opt.on{border:2px solid var(--red);background:var(--red);color:#fff;font-weight:700;box-shadow:0 4px 12px var(--red-dim)}
+.btn{padding:14px 28px;border-radius:var(--radius);background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;box-shadow:0 6px 20px var(--red-dim);letter-spacing:-0.2px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--red-dim)}
+.btn-out{padding:12px 22px;border-radius:var(--radius);background:transparent;color:var(--red);font-size:14px;font-weight:700;border:2px solid var(--red-border);cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s}
 .btn-out:hover{background:var(--red-dim)}
-.result{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px}
+.result{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-top:16px;box-shadow:var(--shadow)}
 .result-yes{border-color:var(--green-border);background:var(--green-dim)}
 .result-no{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05)}
 .result-warn{border-color:var(--gold-border);background:var(--gold-dim)}
-.big-result{font-size:36px;font-weight:900;margin-bottom:8px}
+.big-result{font-size:40px;font-weight:900;margin-bottom:8px;letter-spacing:-0.5px}
 .result-yes .big-result{color:var(--green)}
 .result-no .big-result{color:#dc2626}
 .result-warn .big-result{color:var(--gold)}
 .deadline-box{background:linear-gradient(135deg,var(--red-dim),var(--bg2));border:1.5px solid var(--red-border);border-radius:var(--radius-lg);padding:24px;text-align:center;margin-top:16px}
-.deadline-num{font-size:56px;font-weight:900;color:var(--red);font-family:'Space Mono',monospace;letter-spacing:-2px;line-height:1}
+.deadline-num{font-size:72px;font-weight:900;color:var(--red);font-family:'Space Mono',monospace;letter-spacing:-3px;line-height:1}
 .deadline-urgent{color:#dc2626}
 .deadline-ok{color:var(--green)}
-.fb{padding:12px 16px;border-radius:var(--radius-sm);font-size:13px;line-height:1.7;margin-top:10px;display:flex;gap:10px;align-items:flex-start}
+.fb{padding:14px 18px;border-radius:var(--radius);font-size:14px;line-height:1.7;margin-top:12px;display:flex;gap:12px;align-items:flex-start;font-weight:500}
 .fb .ico{font-size:16px;flex-shrink:0;margin-top:2px}
 .fb-r{background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.2);color:#dc2626}
 .fb-g{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green)}
@@ -90,33 +92,33 @@ textarea{resize:vertical;min-height:100px}
 .demand-output{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-size:14px;line-height:1.85;white-space:pre-wrap;font-family:'Outfit',sans-serif;margin-top:16px;max-height:500px;overflow-y:auto}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .prov-table{width:100%;border-collapse:collapse;font-size:13px}
-.prov-table th{background:var(--bg3);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text3);border-bottom:2px solid var(--border)}
-.prov-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.prov-table th{background:var(--red);color:#fff;padding:12px 16px;text-align:left;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;border-bottom:none}
+.prov-table td{padding:11px 16px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;font-size:14px}
 .prov-table tr:hover td{background:var(--red-dim)}
 .prov-table tr.selected td{background:var(--red-dim);color:var(--red)}
 .limit-high{color:var(--green);font-weight:700;font-family:'Space Mono',monospace}
 .limit-mid{color:var(--gold);font-weight:700;font-family:'Space Mono',monospace}
 .limit-low{color:#dc2626;font-weight:700;font-family:'Space Mono',monospace}
-.step-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:border-color 0.15s}
-.step-card:hover{border-color:var(--red-border)}
-.step-num{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex-shrink:0}
-.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.step-desc{font-size:13px;color:var(--text2);line-height:1.65}
+.step-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start;transition:all 0.15s;box-shadow:var(--shadow)}
+.step-card:hover{border-color:var(--red);transform:translateX(3px);box-shadow:var(--shadow-md)}
+.step-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex-shrink:0;box-shadow:0 3px 8px var(--red-dim)}
+.step-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:5px;letter-spacing:-0.2px}
+.step-desc{font-size:14px;color:var(--text2);line-height:1.7}
 .evidence-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);align-items:flex-start}
 .evidence-item:last-child{border-bottom:none}
 .ev-ico{flex-shrink:0;font-size:15px;margin-top:1px}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:0}
-.tab-btn{padding:9px 14px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;border:none;background:transparent;color:var(--text2);transition:all 0.15s;position:relative;bottom:-2px;border-bottom:2px solid transparent}
+.tab-btn{padding:10px 18px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;border:none;background:transparent;color:var(--text2);transition:all 0.15s;position:relative;bottom:-2px;border-bottom:3px solid transparent}
 .tab-btn:hover{color:var(--red);background:var(--red-dim)}
-.tab-btn.active{color:var(--red);border-bottom:2px solid var(--red);background:var(--bg2)}
+.tab-btn.active{color:var(--red);border-bottom:3px solid var(--red);background:var(--bg2);font-weight:800}
 .tab-pane{display:none;padding-top:20px}
 .tab-pane.active{display:block}
-.aff-card{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;text-decoration:none;color:inherit;transition:all 0.15s}
-.aff-card:hover{border-color:var(--red-border);background:var(--red-dim);transform:translateY(-1px)}
-.aff-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.aff-card{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius-lg);margin-bottom:10px;text-decoration:none;color:inherit;transition:all 0.15s;box-shadow:var(--shadow)}
+.aff-card:hover{border-color:var(--red);background:var(--red-dim);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.aff-name{font-size:16px;font-weight:800;color:var(--text);margin-bottom:3px}
 .aff-card:hover .aff-name{color:var(--red)}
-.aff-desc{font-size:12px;color:var(--text2)}
-.aff-cta{font-size:13px;font-weight:700;color:#fff;background:var(--red);padding:7px 14px;border-radius:var(--radius-sm);white-space:nowrap;border:none;cursor:pointer;font-family:'Outfit',sans-serif}
+.aff-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.aff-cta{font-size:14px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--red),var(--red2));padding:10px 18px;border-radius:var(--radius-sm);white-space:nowrap;border:none;cursor:pointer;font-family:'Outfit',sans-serif;box-shadow:0 4px 10px var(--red-dim)}
 .badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:6px}
 .badge-g{background:var(--green-dim);color:var(--green)}
 .badge-b{background:var(--red-dim);color:var(--red)}
@@ -124,8 +126,9 @@ textarea{resize:vertical;min-height:100px}
 .copy-btn:hover{border-color:var(--red);color:var(--red)}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:20px;font-size:14px;font-weight:600;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none}
 .toast.show{opacity:1}
-.footer-note{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);text-align:center;line-height:1.8}
-@media(max-width:540px){.grid2{grid-template-columns:1fr}.hero h1{font-size:22px}.tool-grid{grid-template-columns:repeat(3,1fr)}.tabs{gap:2px}.tab-btn{padding:7px 8px;font-size:11px}.wrap{padding:20px 14px 80px}}
+.footer-note{margin-top:40px;padding-top:20px;border-top:2px solid var(--border);font-size:13px;color:var(--text3);text-align:center;line-height:1.9}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.hero h1{font-size:24px}.hero p{font-size:14px}.tool-grid{grid-template-columns:repeat(3,1fr)}.tabs{gap:2px;overflow-x:auto}.tab-btn{padding:8px 10px;font-size:12px;white-space:nowrap}.wrap{padding:20px 14px 80px}h2{font-size:22px}.deadline-num{font-size:52px}}
+@media(max-width:380px){.tool-grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:20px}}
 </style>
 </head>
 <body>
@@ -204,6 +207,11 @@ textarea{resize:vertical;min-height:100px}
         <div class="tool-ico">&#127908;</div>
         <div class="tool-name">Court day script</div>
         <div class="tool-desc">What to say in court</div>
+      </div>
+      <div class="tool-card" onclick="showTool('legal')">
+        <div class="tool-ico">&#9878;</div>
+        <div class="tool-name">Lawyers and legal aid</div>
+        <div class="tool-desc">Free and low-cost help</div>
       </div>
     </div>
   </div>
@@ -613,9 +621,9 @@ textarea{resize:vertical;min-height:100px}
   <div class="panel" id="panel-limits">
     <h2>Small Claims Court Limits by Province and State</h2>
     <p class="sub">Updated for 2025-2026. Always verify the current limit with your local court clerk before filing -- legislatures update these periodically.</p>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="setLimitsTab('CA')">Canada</button>
-      <button class="tab-btn" onclick="setLimitsTab('US')">United States</button>
+    <div class="tabs" id="limits-tabs">
+      <button class="limits-tab tab-btn active" onclick="setLimitsTab('CA')">Canada</button>
+      <button class="limits-tab tab-btn" onclick="setLimitsTab('US')">United States</button>
     </div>
     <div class="tab-pane active" id="limits-CA" style="padding-top:16px">
       <table class="prov-table">
@@ -820,9 +828,47 @@ textarea{resize:vertical;min-height:100px}
     </div>
   </div>
 
+  <!-- LEGAL AID -->
+  <div class="panel" id="panel-legal">
+    <h2>Lawyers and Legal Aid for Small Claims</h2>
+    <p class="sub">Most small claims courts allow you to represent yourself -- and most people do. But knowing when to get legal help, and where to find it free or cheap, can make all the difference.</p>
+
+    <div class="fb fb-b"><div class="ico">&#9878;</div><div><strong>The key rule:</strong> Most small claims courts do not allow lawyers to represent you AT the hearing (Quebec is the strictest -- lawyers are completely banned). But you can absolutely consult a lawyer or paralegal BEFORE your hearing to prepare your strategy. That 30-minute consultation is often worth every dollar.</div></div>
+
+    <div style="margin-top:20px">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:14px">Do you actually need a lawyer?</h3>
+      <div class="step-card"><div class="step-num">?</div><div><div class="step-title">Cases where you likely do NOT need a lawyer</div><div class="step-desc">Unpaid debt with a clear paper trail, security deposit disputes with photos and a lease, contractor disputes where you have a contract and evidence, straightforward product defect claims. These are what small claims court was built for. Go in prepared and represent yourself.</div></div></div>
+      <div class="step-card"><div class="step-num">!</div><div><div class="step-title">Cases where legal advice is worth getting first</div><div class="step-desc">Claims near the maximum limit (the stakes are too high to wing it), cases involving a business with a lawyer on their side, complex contract disputes, cases involving personal injury or significant property damage, situations where you are not sure if you even have a valid legal claim.</div></div></div>
+      <div class="step-card"><div class="step-num">!!</div><div><div class="step-title">Cases where you should hire a lawyer or paralegal</div><div class="step-desc">You are being countersued for a large amount, the case involves a corporation with legal counsel, there are criminal elements (fraud, assault), the case is in the Superior Court (over the small claims limit), or you need help enforcing a judgment against a business with complex assets.</div></div></div>
+    </div>
+
+    <div style="margin-top:24px">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px">Free and low-cost legal help -- Canada</h3>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:14px;line-height:1.7">You do not need to pay $300/hour to get legal advice for a small claims matter. These resources are free or very affordable.</p>
+
+      <div class="step-card"><div class="step-num">1</div><div><div class="step-title">Legal Aid Ontario / Provincial Legal Aid</div><div class="step-desc">Every province has a legal aid program. Small claims matters often qualify for a free consultation or duty counsel. In Ontario call Legal Aid at 1-800-668-8258. In BC call 604-408-2172. Alberta: 1-866-845-3425. Quebec: 1-800-842-2213.</div></div></div>
+      <div class="step-card"><div class="step-num">2</div><div><div class="step-title">Law School Legal Clinics (Free)</div><div class="step-desc">Every major university law school in Canada operates a free legal clinic staffed by law students supervised by licensed lawyers. University of Toronto, Osgoode Hall, UBC, University of Alberta, McGill all have clinics. Search "[your city] law school legal clinic" for your nearest location.</div></div></div>
+      <div class="step-card"><div class="step-num">3</div><div><div class="step-title">Community Legal Clinics</div><div class="step-desc">Over 70 community legal clinics across Ontario alone offer free legal help for low-income individuals. legalclinics.net has a directory. Most provinces have similar networks.</div></div></div>
+      <div class="step-card"><div class="step-num">4</div><div><div class="step-title">Paralegal Services (Much cheaper than lawyers)</div><div class="step-desc">In Ontario, licensed paralegals can represent you in Small Claims Court and typically charge $75-150/hour vs $300-500 for a lawyer. For a 1-hour consultation before your hearing, a paralegal is excellent value. The Law Society of Ontario has a Paralegal Referral Service at 1-800-268-8326.</div></div></div>
+      <div class="step-card"><div class="step-num">5</div><div><div class="step-title">Self-Help Centres at Courthouses</div><div class="step-desc">Most Ontario courthouses have a free Self-Help Centre where staff can help you understand the process and complete forms (though they cannot give legal advice). Call your courthouse and ask if they have one before your first visit.</div></div></div>
+    </div>
+
+    <div style="margin-top:24px">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px">Free and low-cost legal help -- United States</h3>
+      <div class="step-card"><div class="step-num">1</div><div><div class="step-title">Small Claims Court Self-Help Centers</div><div class="step-desc">California, New York, Texas, and many other states have free Self-Help Centers at courthouses specifically for small claims. They help with forms and process questions. California courts at selfhelp.courts.ca.gov are particularly comprehensive.</div></div></div>
+      <div class="step-card"><div class="step-num">2</div><div><div class="step-title">Legal Aid Organizations</div><div class="step-desc">LawHelp.org connects you to free legal aid in your state. Most states have income-based qualifications. For small claims specifically, many legal aid organizations offer free advice clinics even if they do not provide full representation.</div></div></div>
+      <div class="step-card"><div class="step-num">3</div><div><div class="step-title">State Bar Lawyer Referral Services</div><div class="step-desc">Every state bar association has a lawyer referral service. Many offer a reduced-fee initial consultation ($25-50 for 30 minutes). This is ideal for getting strategy advice before a hearing. Find yours at americanbar.org/groups/legal_services/flh-home/.</div></div></div>
+      <div class="step-card"><div class="step-num">4</div><div><div class="step-title">Law School Clinics</div><div class="step-desc">Over 200 US law schools operate free legal clinics. Harvard, Yale, Georgetown, and most state university law schools have clinics covering small claims and consumer protection matters. Search "[your city] law school free legal clinic".</div></div></div>
+      <div class="step-card"><div class="step-num">5</div><div><div class="step-title">JusticeCorps (California)</div><div class="step-desc">California operates a free volunteer program at many courthouses where trained volunteers help self-represented litigants navigate small claims court on the day of their hearing. justiceorps.org to find locations.</div></div></div>
+    </div>
+
+    <div class="fb fb-g" style="margin-top:16px"><div class="ico">&#10003;</div><div><strong>The smartest move:</strong> Use our free tools here to fully prepare your case, then spend $50-75 on one hour with a paralegal or legal clinic to review your strategy before your hearing. That combination gives you near-professional preparation at a fraction of the cost of full representation.</div></div>
+  </div>
+
+
   <!-- LEGAL RESOURCES / AFFILIATES -->
-  <div style="margin-top:32px;padding:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg)">
-    <div style="font-size:17px;font-weight:900;color:var(--text);margin-bottom:6px">Need more help?</div>
+  <div style="margin-top:32px;padding:26px;background:var(--bg2);border:2px solid var(--red-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md)">
+    <div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px">Need professional help?</div>
     <p style="font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.7">For complex cases, a consultation with a paralegal or lawyer is worth it. These services offer affordable flat-fee legal help -- much cheaper than traditional law firms.</p>
     <a href="https://www.legalzoom.com/business/resolve-a-dispute/" target="_blank" rel="noopener noreferrer" class="aff-card">
       <div><div class="aff-name">LegalZoom <span class="badge badge-g">From $149</span></div><div class="aff-desc">Document preparation and legal consultations for small claims. Flat-fee pricing, no surprises.</div></div>
@@ -859,7 +905,7 @@ function showTool(id){
   document.querySelectorAll('.tool-card').forEach(function(c){c.classList.remove('active');});
   document.getElementById('panel-'+id).classList.add('active');
   var cards=document.getElementById('tool-grid').querySelectorAll('.tool-card');
-  var order=['eligibility','deadline','demand','guide','evidence','enforce','limits'];
+  var order=['eligibility','deadline','demand','guide','evidence','enforce','limits','courtfinder','roi','strength','defendant','script','legal'];
   var idx=order.indexOf(id);
   if(idx>=0&&cards[idx])cards[idx].classList.add('active');
   window.scrollTo(0,200);
@@ -1009,8 +1055,8 @@ var CA_GUIDES={
 };
 
 var US_GUIDES={
-  CA:{name:"California",limit:"$12,500 (individuals) / $6,250 (businesses)",fee:"$30-$75",steps:["Send a demand letter and wait at least 10 days.","Get your forms from the court's self-help center or online at courts.ca.gov. The main form is SC-100 (Plaintiff's Claim and ORDER to Go to Small Claims Court).","File at the courthouse in the county where the defendant lives or where the dispute arose.","Serve the defendant -- you cannot serve them yourself. Options: certified mail through the court clerk, registered mail, or a process server. File Proof of Service (SC-104).","Attend your hearing. Bring 3 copies of all documents (one for you, one for the judge, one for the defendant).","If you win, collect your judgment through wage garnishment (EJ-150), bank levy, or property lien."],tips:["California does not allow attorneys to represent either side in small claims court.","You can sue for up to $12,500 as an individual but only twice per year if your claim is over $2,500.","The court has Self-Help Centers at most courthouses with free assistance."]},
-  TX:{name:"Texas",limit:"$20,000",fee:"$31-$100",steps:["Send a demand letter. Texas does not formally require it, but judges expect it.","File your claim at the Justice Court in the precinct where the defendant lives or the dispute occurred. Complete the Small Claims Petition.","Pay the filing fee and get your court date.","Serve the defendant -- the constable or process server delivers papers. File return of service.","Attend the hearing. Texas small claims hearings are relatively informal.","Enforce your judgment through the JP court's enforcement procedures."],tips:["Texas has one of the highest small claims limits in the US at $20,000.","Each county in Texas may have slightly different local rules -- check with your specific JP court.","Mediation is available in many Texas counties before the hearing."]},
+  CA:{name:"California",limit:"$12,500 (individuals) / $6,250 (businesses)",fee:"$30-$75",steps:["Send a demand letter and wait at least 10 days.","Get your forms from the court’s self-help center or online at courts.ca.gov. The main form is SC-100 (Plaintiff's Claim and ORDER to Go to Small Claims Court).","File at the courthouse in the county where the defendant lives or where the dispute arose.","Serve the defendant -- you cannot serve them yourself. Options: certified mail through the court clerk, registered mail, or a process server. File Proof of Service (SC-104).","Attend your hearing. Bring 3 copies of all documents (one for you, one for the judge, one for the defendant).","If you win, collect your judgment through wage garnishment (EJ-150), bank levy, or property lien."],tips:["California does not allow attorneys to represent either side in small claims court.","You can sue for up to $12,500 as an individual but only twice per year if your claim is over $2,500.","The court has Self-Help Centers at most courthouses with free assistance."]},
+  TX:{name:"Texas",limit:"$20,000",fee:"$31-$100",steps:["Send a demand letter. Texas does not formally require it, but judges expect it.","File your claim at the Justice Court in the precinct where the defendant lives or the dispute occurred. Complete the Small Claims Petition.","Pay the filing fee and get your court date.","Serve the defendant -- the constable or process server delivers papers. File return of service.","Attend the hearing. Texas small claims hearings are relatively informal.","Enforce your judgment through the JP court’s enforcement procedures."],tips:["Texas has one of the highest small claims limits in the US at $20,000.","Each county in Texas may have slightly different local rules -- check with your specific JP court.","Mediation is available in many Texas counties before the hearing."]},
   FL:{name:"Florida",limit:"$8,000",fee:"$55-$300 depending on amount",steps:["File at the County Court in the county where the defendant lives or the dispute arose.","Complete a Statement of Claim form available at the courthouse.","Pay the filing fee and receive your hearing date.","Serve the defendant through the Sheriff's office or a process server.","Attend your hearing prepared with all evidence, receipts, contracts, and photos.","Florida has a Pre-Trial Conference to try to settle before a full trial."],tips:["Florida has a Pre-Trial Conference process that resolves many disputes without a full hearing.","Attorney fees are sometimes recoverable in Florida small claims if provided for by contract or statute."]},
   NY:{name:"New York",limit:"$10,000 (NYC) / $5,000 (outside NYC)",fee:"$15-$20 (NYC) / $10-$20 (elsewhere)",steps:["File a Small Claims Statement at your local Civil Court or District Court.","Pay the filing fee. NYC small claims has one of the lowest fees in the country.","The defendant is notified by the court by certified mail.","Attend your hearing. NYC small claims court operates evenings to accommodate working people.","A decision is usually given on the spot or within a few weeks by mail.","Enforce through the city marshal (NYC) or sheriff (outside NYC)."],tips:["New York City small claims court is exceptionally user-friendly with evening hours.","Mediation is offered at the start of every NYC small claims hearing.","New York does not allow businesses to file in small claims court -- only individuals."]}
 };
@@ -1084,12 +1130,13 @@ function setEnforceTab(t){
 
 // ── LIMITS TABS ───────────────────────────────────────────────────────────────
 function setLimitsTab(c){
-  document.querySelectorAll('.tabs .tab-btn').forEach(function(b){if(b.onclick&&b.onclick.toString().indexOf('setLimitsTab')>-1)b.classList.remove('active');});
+  document.querySelectorAll('.limits-tab').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.limits-tab').forEach(function(b){
+    if(b.textContent.indexOf(c==='CA'?'Canada':'United States')>-1)b.classList.add('active');
+  });
   document.getElementById('limits-CA').classList.remove('active');
   document.getElementById('limits-US').classList.remove('active');
   document.getElementById('limits-'+c).classList.add('active');
-  var btns=document.querySelectorAll('#panel-limits .tab-btn');
-  btns.forEach(function(b){b.classList.remove('active');if(b.textContent.indexOf(c==='CA'?'Canada':'United States')>-1)b.classList.add('active');});
 }
 // ── COURT FINDER ──────────────────────────────────────────────────────────────
 var cfCountry='CA';
@@ -1235,7 +1282,7 @@ var STRENGTH_Q=[
   {id:'photos',q:'Do you have photos or videos relevant to your claim?',yes:15,no:0,hint:'Visual evidence is very persuasive. Date-stamped photos are best.'},
   {id:'amount',q:'Is your claim amount clearly calculable (not estimated)?',yes:10,no:-5,hint:'Judges dislike speculative damages. The clearer your number, the stronger your case.'},
   {id:'limitation',q:'Is your claim within the statute of limitations?',yes:10,no:-30,hint:'If you are outside the limitation period, you likely cannot file at all.'},
-  {id:'defendant',q:'Do you know the defendant's full legal name and address?',yes:5,no:-10,hint:'You cannot serve someone you cannot locate. For businesses, find the registered name in the corporate registry.'}
+  {id:'defendant',q:"Do you know the defendant’s full legal name and address?",yes:5,no:-10,hint:'You cannot serve someone you cannot locate. For businesses, find the registered name in the corporate registry.'}
 ];
 
 function initStrengthQuestions(){
